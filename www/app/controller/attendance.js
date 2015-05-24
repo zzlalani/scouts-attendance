@@ -1,16 +1,21 @@
-app.controller('AttendanceCtrl', ['$scope', '$state', '$Storage', '$filter', '$stateParams', 
-	function($scope, $state, $Storage, $filter, $stateParams) {
-		
-	var date;
-	if ( $stateParams.date ) {
-		date = $stateParams.date;
-	} else {
-		date = $filter('date')(new Date(),'yyyy-MM-dd');
-	}
+app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filter', '$stateParams', '$Utils', 
+	function($scope, $ionicHistory, $Storage, $filter, $stateParams, $Utils) {
 
-	$scope.attendance = $Storage.getAttendanceByDate(date);
-	
-	$scope.attendance.date = new Date($scope.attendance.date);
+	var guid;
+	var date;
+	if ( $stateParams.guid ) {
+		guid = $stateParams.guid;
+		$scope.attendance = $Storage.getAttendanceByGuid(guid);
+		$scope.attendance.date = new Date($scope.attendance.date);
+	} else {
+		guid = $Utils.guid();
+		date = $filter('date')(new Date(),'yyyy-MM-dd');
+		$scope.attendance = {
+			guid:guid,
+			date: new Date(),
+			present: {}
+		}
+	}
 
 	$scope.scouts = $Storage.getScouts();
 
@@ -19,11 +24,11 @@ app.controller('AttendanceCtrl', ['$scope', '$state', '$Storage', '$filter', '$s
 	}
 
 	$scope.save = function () {
-		$Storage.setAttendance($filter('date')($scope.attendance.date,'yyyy-MM-dd'),$scope.attendance);
+		$Storage.setAttendance(guid,$scope.attendance);
 	}
 
 	$scope.back = function () {
-		$state.go("index");
+		$ionicHistory.goBack(-1);
 	}
 
 }]);

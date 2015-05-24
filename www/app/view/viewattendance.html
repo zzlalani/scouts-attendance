@@ -1,0 +1,20 @@
+<ion-view title="Rovers">
+
+	<ion-nav-bar class="bar-assertive"></ion-nav-bar>
+
+	<ion-nav-buttons side="primary">
+		<button class="button" ng-click="back()">
+			<i class="ion-android-arrow-dropleft"></i> Back
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content>
+		
+		<ion-list>
+			<ion-item ui-sref="getattendance({guid:attendance.guid})" ng-repeat="attendance in attendanceSummary | orderBy:attendance.date:true">
+				{{attendance.date | date:'MMM dd, yyyy'}}
+			</ion-item>
+		</ion-list>
+	</ion-content>
+
+</ion-view>

@@ -1,6 +1,4 @@
-angular.module('scouts.utils', [])
-
-.factory('$Storage', ['localStorageService', function(localStorageService) {
+utils.factory('$Storage', ['localStorageService', function(localStorageService) {
 	
 	function Storage() {
 
@@ -11,22 +9,20 @@ angular.module('scouts.utils', [])
 			alert("getScouts");
 		}
 
-		this.setAttendance = function (date,attendance) {
-			localStorageService.set(date, attendance);
+		this.setAttendance = function (guid,attendance) {
+			localStorageService.set(guid, attendance);
 
 			// add date in attendance summary
 			var attendanceSummary = this.getAttendanceSummary();
-			if (attendanceSummary.indexOf(date) == -1) {
-				attendanceSummary.push(date);
-			}
+			attendanceSummary.push({
+				date:attendance.date,
+				guid:guid
+			});
 			localStorageService.set("attendanceSummary",attendanceSummary);
 		}
-
-		this.getAttendanceByDate = function (date) {
-			return localStorageService.get(date) || {
-				date: date,
-				present: {}
-			}
+		
+		this.getAttendanceByGuid = function (guid) {
+			return localStorageService.get(guid)
 		}
 
 		this.getAttendanceSummary = function () {

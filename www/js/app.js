@@ -41,8 +41,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
     templateUrl: '../app/view/viewattendance.html',
     controller: 'ViewAttendanceCtrl'
   })
-  .state('attendancedate', {
-    url: '/attendancedate/:date',
+  .state('getattendance', {
+    url: '/getattendance/:guid',
     templateUrl: '../app/view/attendance.html',
     controller: 'AttendanceCtrl'
   });
@@ -52,3 +52,5 @@ app.config(function($stateProvider, $urlRouterProvider) {
   localStorageServiceProvider
     .setPrefix('smartattendance');
 });
+
+var utils = angular.module('scouts.utils', []);
