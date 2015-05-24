@@ -36,6 +36,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
     templateUrl: '../app/view/attendance.html',
     controller: 'AttendanceCtrl'
   })
+  .state('viewattendance', {
+    url: '/viewattendance',
+    templateUrl: '../app/view/viewattendance.html',
+    controller: 'ViewAttendanceCtrl'
+  })
+  .state('attendancedate', {
+    url: '/attendancedate/:date',
+    templateUrl: '../app/view/attendance.html',
+    controller: 'AttendanceCtrl'
+  });
 
 })
 .config(function (localStorageServiceProvider) {
