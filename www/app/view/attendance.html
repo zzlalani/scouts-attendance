@@ -1,0 +1,46 @@
+<ion-view title="Rovers">
+
+	<ion-nav-bar class="bar-assertive"></ion-nav-bar>
+
+	<ion-nav-buttons side="primary">
+		<button class="button" ng-click="back()">
+			<i class="ion-android-arrow-dropleft"></i> Back
+		</button>
+	</ion-nav-buttons>
+
+	<ion-nav-buttons side="secondary">
+		<button class="button" ng-click="save()">
+			Save
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content>
+
+		<div class="padding">
+			<div class="list">
+				<label class="item item-input">
+					<input type="date" id="date" name="date" ng-model="attendance.date" placeholder="yyyy-MM-dd" />
+				</label>
+			</div>
+		</div>
+		
+		<label class="item item-input">
+			<i class="icon ion-search placeholder-icon"></i>
+			<input type="text" placeholder="Search" ng-model="searchText">
+		</label>
+		
+		<ion-list>
+			<ion-item class="item-toggle" ng-repeat="scout in scouts | filter:searchText">
+				<h2>{{scout.firstName}} {{scout.lastName}}</h2>
+				<label class="toggle toggle-assertive">
+					<input type="checkbox" ng-model="present[scout.id]" ng-change="attendanceChange(scout.id, present[scout.id])">
+					<div class="track">
+						<div class="handle"></div>
+					</div>
+				</label>
+
+			</ion-item>
+		</ion-list>
+	</ion-content>
+
+</ion-view>
