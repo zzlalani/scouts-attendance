@@ -14,10 +14,10 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 
 			// add date in attendance summary
 			var attendanceSummary = this.getAttendanceSummary();
-			attendanceSummary.push({
+			attendanceSummary[guid] = {
 				date:attendance.date,
 				guid:guid
-			});
+			}
 			localStorageService.set("attendanceSummary",attendanceSummary);
 		}
 		
@@ -26,7 +26,7 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 		}
 
 		this.getAttendanceSummary = function () {
-			return localStorageService.get("attendanceSummary") || [];
+			return localStorageService.get("attendanceSummary") || {};
 		}
 
 		this.getScouts = function () {

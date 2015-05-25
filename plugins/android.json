@@ -13,11 +13,7 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"DatePickerPlugin\"><param name=\"android-package\" value=\"com.plugin.datepicker.DatePickerPlugin\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<preference name=\"webView\" value=\"org.crosswalk.engine.XWalkWebViewEngine\" />",
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
                         },
                         {
@@ -35,19 +31,19 @@
     },
     "installed_plugins": {
         "com.ionic.keyboard": {
-            "PACKAGE_NAME": "com.ionicframework.ionictest490303"
+            "PACKAGE_NAME": "com.ionicframework.scoutsattendance975247"
         },
-        "com.plugin.datepicker": {
-            "PACKAGE_NAME": "com.ionicframework.ionictest490303"
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.ionicframework.scoutsattendance975247"
         },
-        "cordova-plugin-crosswalk-webview": {
-            "PACKAGE_NAME": "com.ionicframework.ionictest490303"
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.ionicframework.scoutsattendance975247"
         },
         "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "com.ionicframework.ionictest490303"
+            "PACKAGE_NAME": "com.ionicframework.scoutsattendance975247"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.ionicframework.ionictest490303"
+            "PACKAGE_NAME": "com.ionicframework.scoutsattendance975247"
         }
     },
     "dependent_plugins": {}

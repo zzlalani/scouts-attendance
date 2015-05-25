@@ -28,22 +28,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('index', {
     url: '/',
-    templateUrl: '../app/view/index.html',
+    templateUrl: 'app/templates/index.html',
     controller: 'IndexCtrl'
   })
   .state('attendance', {
     url: '/attendance',
-    templateUrl: '../app/view/attendance.html',
+    templateUrl: 'app/templates/attendance.html',
     controller: 'AttendanceCtrl'
   })
   .state('viewattendance', {
     url: '/viewattendance',
-    templateUrl: '../app/view/viewattendance.html',
+    templateUrl: 'app/templates/viewattendance.html',
     controller: 'ViewAttendanceCtrl'
   })
   .state('getattendance', {
     url: '/getattendance/:guid',
-    templateUrl: '../app/view/attendance.html',
+    templateUrl: 'app/templates/attendance.html',
     controller: 'AttendanceCtrl'
   });
 
