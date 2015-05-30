@@ -1,10 +1,31 @@
-app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicHistory', 
-	function($scope, $state, $Storage, $ionicHistory) {
+app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicPopup',
+	function($scope, $state, $Storage, $ionicPopup) {
 	
 	$scope.attendanceSummary = $Storage.getAttendanceSummary();
+	
+	$scope.shouldShow = function () {
+		$scope.shouldShowDelete = !$scope.shouldShowDelete;
+	};
+	
+	$scope.removeItem = function (guid) {
+		$scope.showConfirm(guid);
+	};
 
-	$scope.back = function () {
-		$ionicHistory.goBack(-1);
-	}
+	$scope.showConfirm = function(guid) {
+		var confirmPopup = $ionicPopup.confirm({
+			title: 'Delete Attendance',
+			template: 'Are you sure you want to delete this attendance?'
+		});
+		
+		confirmPopup.then(function(res) {
+			if(res) {
+				var attendance = $scope.attendanceSummary[guid];
+				delete $scope.attendanceSummary[guid];
+				$Storage.removeAttendance( guid );
+			}
+		});
+	};
+
+	$scope.shouldShowDelete = false;
 
 }]);

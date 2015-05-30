@@ -1,18 +1,23 @@
 <ion-view title="Rovers">
 
-	<ion-nav-bar class="bar-assertive"></ion-nav-bar>
+	<ion-nav-bar align-title="center" class="bar-assertive">
+		<ion-nav-back-button>
+  		</ion-nav-back-button>
+  	</ion-nav-bar>
 
-	<ion-nav-buttons side="primary">
-		<button class="button" ng-click="back()">
-			<i class="ion-android-arrow-dropleft"></i> Back
-		</button>
-	</ion-nav-buttons>
-
-	<ion-content>
+  	<ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-ios-minus-outline" ng-click="shouldShow()"></button>
+      </ion-nav-buttons>
+      
+	<ion-content >
 		
-		<ion-list>
+		<ion-list show-delete="shouldShowDelete">
 			<ion-item ui-sref="getattendance({guid:attendance.guid})" ng-repeat="attendance in attendanceSummary | orderBy:attendance.date:true">
 				{{attendance.date | date:'MMM dd, yyyy'}}
+
+				<ion-delete-button class="ion-minus-circled"
+                       ng-click="removeItem(attendance.guid)"></ion-delete-button>
+
 			</ion-item>
 		</ion-list>
 	</ion-content>

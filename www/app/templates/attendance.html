@@ -1,27 +1,27 @@
-<ion-view title="Rovers">
+<ion-view title="{{title}}">
 
-	<ion-nav-bar class="bar-assertive"></ion-nav-bar>
+	<ion-nav-bar align-title="center" class="bar-assertive">
+		<ion-nav-back-button>
+  		</ion-nav-back-button>
+	</ion-nav-bar>
 
-	<ion-nav-buttons side="primary">
-		<button class="button" ng-click="back()">
-			<i class="ion-android-arrow-dropleft"></i> Back
-		</button>
-	</ion-nav-buttons>
-
-	<ion-nav-buttons side="secondary">
+	<!-- <ion-nav-buttons side="secondary">
 		<button class="button" ng-click="save()">
 			Save
 		</button>
-	</ion-nav-buttons>
+	</ion-nav-buttons> -->
+	<ion-nav-buttons side="right">
+      <button class="button" ng-click="doSomething()">
+      	Change
+      </button>
+    </ion-nav-buttons>
 
 	<ion-content>
 
 		<div class="padding">
-			<div class="list">
-				<label class="item item-input">
-					<input type="date" id="date" name="date" ng-model="attendance.date" placeholder="yyyy-MM-dd" readonly />
-				</label>
-			</div>
+			<button class="button button-block button-light" ng-click="changeDate()">
+				{{attendance.date | date}}
+			</button>
 		</div>
 		
 		<label class="item item-input">

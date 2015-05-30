@@ -29,6 +29,10 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 			return localStorageService.get("attendanceSummary") || {};
 		}
 
+		this.setAttendanceSummary = function ( summary ) {
+			return localStorageService.set("attendanceSummary",summary);
+		}
+
 		this.getScouts = function () {
 			return [
 				{"id": 1, "firstName": "Sahibdin", "lastName": "Khowaja"},
@@ -49,6 +53,13 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 				{"id": 13, "firstName": "Jahangir", "lastName": "Charania"},
 				{"id": 14, "firstName": "Sameer", "lastName": "Saleem"}
 			];
+		}
+
+		this.removeAttendance = function ( guid ) {
+			localStorageService.remove( guid );
+			var summary = this.getAttendanceSummary();
+			delete summary[guid];
+			this.setAttendanceSummary(summary);
 		}
 
 	}

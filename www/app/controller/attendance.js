@@ -1,5 +1,7 @@
-app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filter', '$stateParams', '$Utils', 
-	function($scope, $ionicHistory, $Storage, $filter, $stateParams, $Utils) {
+app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filter', '$stateParams', '$Utils', '$cordovaDatePicker', 'underscore',
+	function($scope, $ionicHistory, $Storage, $filter, $stateParams, $Utils, $cordovaDatePicker, _) {
+	
+	$scope.title = "Regular Attendance";
 
 	var guid;
 	var date;
@@ -21,14 +23,35 @@ app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filte
 
 	$scope.attendanceChange = function (id) {
 		$scope.attendance.present[id].dateTime = new Date();
+		if ( window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard ) {
+			window.cordova.plugins.Keyboard.close();
+		}
 	}
 
 	$scope.save = function () {
 		$Storage.setAttendance(guid,$scope.attendance);
+		// $ionicHistory.goBack(-1);
 	}
 
-	$scope.back = function () {
-		$ionicHistory.goBack(-1);
+	$scope.changeDate = function () {
+		
+		var options = {
+	    date: new Date($scope.attendance.date),
+	    mode: 'date', // or 'time'
+	  };
+
+		$cordovaDatePicker.show(options).then(function(date){
+        $scope.attendance.date = new Date(date);
+    });
 	}
+
+	$scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+		
+		if ( !_.isEmpty( $scope.attendance.present ) ) {
+			console.log("****** Saving Attendance ******");
+			$scope.save();
+		}
+		
+	});
 
 }]);
