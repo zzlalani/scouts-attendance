@@ -7,13 +7,16 @@
 
   	<ion-nav-buttons side="right">
         <button class="button button-icon icon ion-ios-minus-outline" ng-click="shouldShow()"></button>
+        <button class="button button-icon icon ion-ios-plus-outline" ng-click="addNew()"></button>
       </ion-nav-buttons>
       
 	<ion-content >
 		
 		<ion-list show-delete="shouldShowDelete">
 			<ion-item ui-sref="getattendance({guid:attendance.guid})" ng-repeat="attendance in attendanceSummary | orderBy:attendance.date:true">
-				{{attendance.date | date:'MMM dd, yyyy'}}
+				<h2>{{ attendance.name }}</h2>
+  				<p>{{ attendance.date | date:'MMM dd, yyyy' }}</p>
+  				<span class="badge badge-assertive">{{ attendance.count }}/{{ attendance.total }}</span>
 
 				<ion-delete-button class="ion-minus-circled"
                        ng-click="removeItem(attendance.guid)"></ion-delete-button>

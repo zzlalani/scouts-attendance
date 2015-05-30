@@ -14,9 +14,22 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 
 			// add date in attendance summary
 			var attendanceSummary = this.getAttendanceSummary();
+
+			var count = 0;
+			var total = this.getScouts().length;
+
+			for ( var i in attendance.present) {
+				if ( attendance.present[i].stat ) {
+					count++;
+				}
+			}
+			
 			attendanceSummary[guid] = {
 				date:attendance.date,
-				guid:guid
+				guid:guid,
+				name: attendance.name,
+				total: total,
+				count: count
 			}
 			localStorageService.set("attendanceSummary",attendanceSummary);
 		}

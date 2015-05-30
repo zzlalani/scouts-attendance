@@ -1,8 +1,6 @@
-app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filter', '$stateParams', '$Utils', '$cordovaDatePicker', 'underscore',
-	function($scope, $ionicHistory, $Storage, $filter, $stateParams, $Utils, $cordovaDatePicker, _) {
+app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filter', '$stateParams', '$Utils', '$cordovaDatePicker', '$ionicPopup', 'underscore',
+	function($scope, $ionicHistory, $Storage, $filter, $stateParams, $Utils, $cordovaDatePicker, $ionicPopup, _) {
 	
-	$scope.title = "Regular Attendance";
-
 	var guid;
 	var date;
 	if ( $stateParams.guid ) {
@@ -15,8 +13,39 @@ app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filte
 		$scope.attendance = {
 			guid:guid,
 			date: new Date(),
-			present: {}
+			present: {},
+			name: "Regular Attendance"
 		}
+	}
+
+	$scope.data = {
+		name: $scope.attendance.name
+	};
+
+	$scope.changeName = function () {
+		var namePopup = $ionicPopup.show({
+			template: '<input type="text" ng-model="data.name">',
+			title: 'Change attendance name',
+			subTitle: 'eg: Chandraat',
+			scope: $scope,
+			buttons: [{ 
+				text: 'Cancel',
+				type: 'button-assertive',
+				onTap: function(e) {
+					$scope.data.name = $scope.attendance.name;
+					return $scope.attendance.name;
+				}
+			}, {
+				text: 'Save',
+				onTap: function(e) {
+					return $scope.data.name;
+				}
+			}]
+		});
+
+		namePopup.then(function(res) {
+			$scope.attendance.name = res;
+		});
 	}
 
 	$scope.scouts = $Storage.getScouts();
@@ -46,10 +75,19 @@ app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filte
 	}
 
 	$scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-		
 		if ( !_.isEmpty( $scope.attendance.present ) ) {
-			console.log("****** Saving Attendance ******");
-			$scope.save();
+			var stat = false;
+
+			for ( var i in $scope.attendance.present ) {
+				if ( $scope.attendance.present[i].stat ) {
+					stat = true;
+					break;
+				}
+			}
+			
+			if (stat) {
+				$scope.save();
+			}
 		}
 		
 	});

@@ -26,6 +26,10 @@ app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicPop
 		});
 	};
 
+	$scope.addNew = function () {
+		$state.go('attendance');
+	};
+
 	$scope.shouldShowDelete = false;
 
 }]);
