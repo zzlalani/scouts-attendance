@@ -13,7 +13,7 @@
 	<ion-content >
 		
 		<ion-list show-delete="shouldShowDelete">
-			<ion-item ui-sref="getattendance({guid:attendance.guid})" ng-repeat="attendance in attendanceSummary | orderBy:attendance.date:true">
+			<ion-item ui-sref="getattendance({guid:attendance.guid})" ng-repeat="attendance in attendanceSummary | orderObjectBy:'date':true">
 				<h2>{{ attendance.name }}</h2>
   				<p>{{ attendance.date | date:'MMM dd, yyyy' }}</p>
   				<span class="badge badge-assertive">{{ attendance.count }}/{{ attendance.total }}</span>

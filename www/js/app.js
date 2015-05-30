@@ -61,3 +61,17 @@ var underscore = angular.module('underscore', []);
 underscore.factory('underscore', ['$window', function($window) {
   return $window._; // assumes underscore has already been loaded on the page
 }]);
+
+app.filter('orderObjectBy', function() {
+  return function(items, field, reverse) {
+    var filtered = [];
+    angular.forEach(items, function(item) {
+      filtered.push(item);
+    });
+    filtered.sort(function (a, b) {
+      return (a[field] > b[field] ? 1 : -1);
+    });
+    if(reverse) filtered.reverse();
+    return filtered;
+  };
+});

@@ -63,15 +63,17 @@ app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filte
 	}
 
 	$scope.changeDate = function () {
-		
+
 		var options = {
-	    date: new Date($scope.attendance.date),
-	    mode: 'date', // or 'time'
-	  };
+			date: new Date($scope.attendance.date),
+			mode: 'date', // or 'time'
+		};
 
 		$cordovaDatePicker.show(options).then(function(date){
-        $scope.attendance.date = new Date(date);
-    });
+			if ( date ) {
+				$scope.attendance.date = new Date(date);
+			}
+		});
 	}
 
 	$scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
@@ -84,7 +86,7 @@ app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filte
 					break;
 				}
 			}
-			
+
 			if (stat) {
 				$scope.save();
 			}
