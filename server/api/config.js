@@ -36,6 +36,6 @@ config.logger.maxFiles = 1;
 
 // Db Configuration
 config.db = {}
-config.db.host = (config.app.mode.current == config.app.mode.DEVELOPMENT ) ? 'mongodb://root:root@54.76.197.82/apt-dev' : 'mongodb://root:aqwer%403214!@54.76.197.82/apt-production'; 
+config.db.host = 'mongodb://admin:admin@ds041432.mongolab.com:41432/smartattendance'
 config.db.modelVersion = 1.0;
 module.exports = config;

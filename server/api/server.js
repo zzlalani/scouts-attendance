@@ -1,8 +1,4 @@
 /**
- * Copyright RIKSOF (Private) Limited 2015 All Rights Reserved.
- *
- * THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION WHICH IS THE
- * PROPERTY OF RIKSOF (PRIVATE) LIMITED OR ITS LICENSORS AND IS SUBJECT TO LICENSE TERMS.
  *
  * Developer: Muhammad Zeeshan
  *
@@ -37,10 +33,16 @@ app.all('*', function(req, res, next) {
   next();
 });
 
-
+ 
 // Configure all servers for this application
 var contentServer = require( __dirname + '/providers/StaticContentServer' );
 contentServer.setup( app );
+
+var userProvider = require( __dirname + '/providers/User' );
+userProvider.setup( app );
+
+var scoutProvider = require( __dirname + '/providers/Scout' );
+scoutProvider.setup( app );
 
 
 // Start the http server
@@ -51,7 +53,5 @@ var http = require('http');
 httpServer = http.createServer(app);
 // Make the server listen
 httpServer.listen( config.http.port );
-
-
 
 logger.info( 'Listening on port ' + config.http.port + ' with SSL ' + config.http.enableSSL );
