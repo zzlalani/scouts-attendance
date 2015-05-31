@@ -1,3 +1,3 @@
-app.controller('IndexCtrl', function($scope) {
-  
-});
+app.controller('IndexCtrl', ['$scope', '$state', function($scope, $state) {
+  $state.go("login");
+}]);

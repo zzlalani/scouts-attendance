@@ -46,6 +46,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/getattendance/:guid',
     templateUrl: 'app/templates/attendance.html',
     controller: 'AttendanceCtrl'
+  })
+  .state('login', {
+    url: '/login',
+    templateUrl: 'app/templates/login.html',
+    controller: 'LoginCtrl'
   });
 
 })

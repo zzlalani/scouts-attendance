@@ -30,6 +30,10 @@ app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicPop
 		$state.go('attendance');
 	};
 
-	$scope.shouldShowDelete = false;
+	$scope.changeOrder = function ( order ) {
+		$scope.orderReverse = order;
+	}
 
+	$scope.shouldShowDelete = false;
+	$scope.orderReverse = true;
 }]);
