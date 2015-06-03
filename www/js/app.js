@@ -28,7 +28,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
 
   $stateProvider.state('index', {
-    url: '/',
+    url: 'index',
     templateUrl: 'app/templates/index.html',
     controller: 'IndexCtrl'
   })
@@ -48,7 +48,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     controller: 'AttendanceCtrl'
   })
   .state('login', {
-    url: '/login',
+    url: '/',
     templateUrl: 'app/templates/login.html',
     controller: 'LoginCtrl'
   });

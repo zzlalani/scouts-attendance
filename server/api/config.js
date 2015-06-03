@@ -36,6 +36,7 @@ config.logger.maxFiles = 1;
 
 // Db Configuration
 config.db = {}
-config.db.host = 'mongodb://admin:admin@ds041432.mongolab.com:41432/smartattendance'
+// config.db.host = 'mongodb://admin:admin@ds041432.mongolab.com:41432/smartattendance'
+config.db.host = 'mongodb://dbuser:dbuser@ds031862.mongolab.com:31862/scouts-attendance'
 config.db.modelVersion = 1.0;
 module.exports = config;

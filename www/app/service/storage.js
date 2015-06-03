@@ -75,6 +75,14 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 			this.setAttendanceSummary(summary);
 		}
 
+		this.setUser = function ( user ) {
+			localStorageService.set( "user", user );
+		}
+
+		this.getUser = function () {
+			return localStorageService.get( "user" );
+		}
+
 	}
 
 	return new Storage();

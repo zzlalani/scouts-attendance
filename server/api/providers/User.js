@@ -73,9 +73,13 @@ user.setup = function(app) {
                 }
 
                 if (user != null) {
-
+                    var userObject = {
+                        id: user._id,
+                        name: user.name,
+                        userName: user.userName
+                    };
                     responseJSON.status = 'OK';
-                    responseJSON.user = user;
+                    responseJSON.user = userObject;
                     res.jsonp(200, responseJSON);
 
                 } else {
