@@ -25,12 +25,12 @@ user.setup = function(app) {
 
     var User = require(__dirname + '/../models/User');
 
-    app.get('/', function(req, res) {
+    // app.get('/', function(req, res) {
 
-        res.write('<h1>Welcome to Scout Api</h1>');
-        res.end();
+    //     res.write('<h1>Welcome to Scout Api</h1>');
+    //     res.end();
 
-    });
+    // });
 
     /* 
      *  Developer: Muhammad Zeeshan

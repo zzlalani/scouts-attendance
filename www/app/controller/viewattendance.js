@@ -30,6 +30,10 @@ app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicPop
 		$state.go('attendance');
 	};
 
+	$scope.view = {
+		orderReverse: true
+	}
+
 	$scope.changeOrder = function ( order ) {
 		$scope.orderReverse = order;
 	}

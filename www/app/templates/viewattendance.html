@@ -6,8 +6,9 @@
   	</ion-nav-bar>
 
   	<ion-nav-buttons side="left">
-        <button class="button button-icon icon ion-ios-arrow-thin-up" ng-click="changeOrder(false)"></button>
-        <button class="button button-icon icon ion-ios-arrow-thin-down" ng-click="changeOrder(true)"></button>
+        <button ng-class="view.orderReverse ? 'button button-icon icon ion-ios-arrow-thin-down' : 'button button-icon icon ion-ios-arrow-thin-up';"
+         ng-click="view.orderReverse = !view.orderReverse"></button>
+        
       </ion-nav-buttons>
 
   	<ion-nav-buttons side="right">
@@ -15,10 +16,9 @@
         <button class="button button-icon icon ion-ios-plus-outline" ng-click="addNew()"></button>
       </ion-nav-buttons>
       
-	<ion-content >
-		
+	<ion-content>
 		<ion-list show-delete="shouldShowDelete" type="card">
-			<ion-item ui-sref="getattendance({guid:attendance.guid})" ng-repeat="attendance in attendanceSummary | orderObjectBy:'date':orderReverse">
+			<ion-item ui-sref="getattendance({guid:attendance.guid})" ng-repeat="attendance in attendanceSummary | orderObjectBy:'date':view.orderReverse">
 				<h2>{{ attendance.name }}</h2>
   				<p>{{ attendance.date | date:'MMM dd, yyyy' }}</p>
   				<span class="badge badge-assertive">{{ attendance.count }}/{{ attendance.total }}</span>

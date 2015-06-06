@@ -36,6 +36,8 @@ contentServer.setup = function( app ) {
 	// Serve the libs folder
 	var express = require('express');
 	
+	app.use( '/', express.static( __dirname + '/../html' ));	
+
 	app.use( '/public', express.static( __dirname + '/../../public'));	
 	app.use( '/js', express.static( __dirname + '/../../public/js' ));
 
