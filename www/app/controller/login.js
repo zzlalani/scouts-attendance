@@ -1,16 +1,13 @@
 app.controller('LoginCtrl', ['$scope', '$state', '$ionicPopup', '$Login', '$Storage', 
 	function($scope, $state, $ionicPopup, $Login, $Storage) {
   	
-	$scope.form = {
-		username: "lalani",
-		password: "lalani"
-	};
+	$scope.form = {};
 
 	$scope.login = function() {
 		$Login.loginUser($scope.form).success(function(data) {
 			// console.log(data);
-			$Storage.setUser( data.user );
 			if ( data.status == "OK" ) {
+				$Storage.setUser( data.user );
 				$state.go('index');
 			} else {
 				var alertPopup = $ionicPopup.alert({
@@ -33,6 +30,10 @@ app.controller('LoginCtrl', ['$scope', '$state', '$ionicPopup', '$Login', '$Stor
 				}]
 			});
 		});
+	}
+
+	if ( $Storage.getUser() ) {
+		$state.go('index');
 	}
 
 }]);

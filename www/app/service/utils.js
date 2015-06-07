@@ -11,5 +11,9 @@ utils.factory('$Utils', [function() {
 		return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
 	}
 
+	Utils.date = function ( date ) {
+		return new Date(date).toISOString()
+	}
+
 	return Utils;
 }]);

@@ -86,6 +86,94 @@ scout.setup = function(app) {
 
     });
 
+    /* 
+     *  Developer: Zeeshan Lalani
+     *
+     *  api to update scout
+     *
+     *  url: /api/scout/update/:id
+     *
+     *  method: POST
+     *
+     *  @params:
+     *
+     *  1- firstName: String
+     *  2- lastName: String
+     */
+    app.post('/api/scout/update/:id', function(req, res) {
+
+        logger.info('Inside /api/scout/update/:id POST');
+        logger.info('id: ' + req.params.id);
+
+        var responseJSON = {};
+        var data = req.body;
+        var id = req.params.id;
+
+        if (data.firstName && data.lastName) {
+
+            Scout.findOne({_id:id}, function(err, scout) {
+
+                if (err) {
+                    logger.error(JSON.stringify(err));
+                    responseJSON.status = 'FAIL';
+                    responseJSON.message = JSON.stringify(err);
+                    // Response to client.
+                    res.jsonp(200, responseJSON);
+                    return;
+                }
+
+                // scout found
+                if (scout != null) {
+
+                    logger.info('scouts found.');
+
+                    scout.firstName = data.firstName;
+                    scout.lastName = data.lastName;
+
+                    scout.save(function(err, s) {
+
+                        if (err) {
+                            // set on logger
+                            logger.error(JSON.stringify(err));
+
+                            responseJSON.status = 'FAIL';
+                            responseJSON.message = JSON.stringify(err);
+                            // Response to client.
+                            res.jsonp(200, responseJSON);
+                        }
+
+                        /// set on logger
+                        logger.info('Scout with firstName: ' + s.firstName + ' and lastName: ' + s.lastName + ' updated successfully.');
+
+                        responseJSON.status = 'OK';
+                        responseJSON.data = s;
+                        // Response to client.
+                        res.jsonp(200, responseJSON);
+
+                    }); // save scout end
+
+                } else {
+
+                    logger.info('scout not found.');
+
+                    responseJSON.status = 'FAIL';
+                    responseJSON.data = {};
+                    // Response to client.
+                    res.jsonp(200, responseJSON);
+                }
+            });
+
+        } else {
+
+            responseJSON.status = 'FAIL';
+            responseJSON.message = 'Invalid request';
+            // Response to client.
+            res.jsonp(200, responseJSON);
+
+        }
+
+    });
+
     /**
      * get scouts greater than given date
      *
@@ -144,6 +232,87 @@ scout.setup = function(app) {
                 // Response to client.
                 res.jsonp(200, responseJSON);
             }
+        });
+
+    });
+
+    app.get('/api/scouts/list', function(req, res) {
+
+        logger.info('Inside /api/scouts/list GET');
+
+        // Construct response JSON
+        var responseJSON = {};
+
+        // get list of scouts
+        // mongo query will work on iso date
+        Scout.find({}, 'id firstName lastName lastUpdatedDate', function(err, scouts) {
+
+            if (err) {
+                logger.error(JSON.stringify(err));
+                responseJSON.status = 'FAIL';
+                responseJSON.message = JSON.stringify(err);
+                // Response to client.
+                res.jsonp(200, responseJSON);
+                return;
+            }
+
+            // scouts found
+            if (scouts != null && scouts.length) {
+
+                logger.info('scouts found.');
+
+                responseJSON.status = 'OK';
+                responseJSON.data = scouts;
+                // Response to client.
+                res.jsonp(200, responseJSON);
+
+            } else {
+
+                logger.info('no scouts found.');
+
+                responseJSON.status = 'OK';
+                responseJSON.data = [];
+                // Response to client.
+                res.jsonp(200, responseJSON);
+            }
+        });
+
+    });
+
+    app.get('/api/scout/remove/:id', function(req, res) {
+
+        logger.info('Inside /api/scout/remove/:id GET');
+        logger.info('id: ' + req.params.id);
+
+        // Construct response JSON
+        var responseJSON = {};
+        var id = req.params.id;
+        // get list of scouts
+        // mongo query will work on iso date
+        Scout.remove({ _id:id }, function (err, data) {
+            if (err) {
+                logger.error(JSON.stringify(err));
+                responseJSON.status = 'FAIL';
+                responseJSON.message = JSON.stringify(err);
+                // Response to client.
+                res.jsonp(200, responseJSON);
+                return;
+            }
+
+            if ( data == 1 ) {
+                logger.info('Delete: ID '+ id +' deleted successfully.');
+                responseJSON.status = 'OK';
+                // Response to client.
+                res.jsonp(200, responseJSON);
+            } else {
+                logger.info('Delete: ID '+ id +' delete fail.');
+                responseJSON.status = 'FAIL';
+                // Response to client.
+                res.jsonp(200, responseJSON);
+            }
+            
+
+            return;
         });
 
     });

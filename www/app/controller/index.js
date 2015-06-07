@@ -1,3 +1,5 @@
-app.controller('IndexCtrl', ['$scope', '$state', function($scope, $state) {
-  
+app.controller('IndexCtrl', ['$scope', '$Background', function($scope, $Background) {
+	
+	$Background.start();
+
 }]);

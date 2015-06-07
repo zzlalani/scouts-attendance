@@ -19,5 +19,12 @@ var scoutSchema = db.Schema({
         }
 });
 
+// http://stackoverflow.com/a/12670523
+scoutSchema.pre('save', function(next){
+  now = new Date();
+  this.lastUpdatedDate = now;
+  next();
+});
+
 
 module.exports = db.model('Scout', scoutSchema);
