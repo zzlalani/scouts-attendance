@@ -44,6 +44,9 @@ userProvider.setup( app );
 var scoutProvider = require( __dirname + '/providers/Scout' );
 scoutProvider.setup( app );
 
+var attendanceProvider = require( __dirname + '/providers/Attendance' );
+attendanceProvider.setup( app );
+
 
 // Start the http server
 var httpServer;

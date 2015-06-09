@@ -52,6 +52,7 @@ app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filte
 
 	$scope.attendanceChange = function (id) {
 		$scope.attendance.present[id].dateTime = new Date();
+		$scope.attendance.lastUpdatedDate = new Date();
 		if ( window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard ) {
 			window.cordova.plugins.Keyboard.close();
 		}
@@ -77,19 +78,9 @@ app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filte
 	}
 
 	$scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+
 		if ( !_.isEmpty( $scope.attendance.present ) ) {
-			var stat = false;
-
-			for ( var i in $scope.attendance.present ) {
-				if ( $scope.attendance.present[i].stat ) {
-					stat = true;
-					break;
-				}
-			}
-
-			if (stat) {
-				$scope.save();
-			}
+			$scope.save();
 		}
 		
 	});

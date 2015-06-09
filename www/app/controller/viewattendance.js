@@ -1,5 +1,5 @@
-app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicPopup',
-	function($scope, $state, $Storage, $ionicPopup) {
+app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicPopup', 'underscore',
+	function($scope, $state, $Storage, $ionicPopup, _) {
 	
 	$scope.attendanceSummary = $Storage.getAttendanceSummary();
 	
@@ -22,6 +22,7 @@ app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicPop
 				var attendance = $scope.attendanceSummary[guid];
 				delete $scope.attendanceSummary[guid];
 				$Storage.removeAttendance( guid );
+				showEmpty();
 			}
 		});
 	};
@@ -40,4 +41,13 @@ app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicPop
 
 	$scope.shouldShowDelete = false;
 	$scope.orderReverse = true;
+
+	$scope.listEmpty = false;
+	var showEmpty = function () {
+		if ( _.isEmpty( $scope.attendanceSummary ) ) {
+			$scope.listEmpty = true;
+		}
+	}
+	showEmpty();
+
 }]);

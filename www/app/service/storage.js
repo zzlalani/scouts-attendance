@@ -4,11 +4,6 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 
 		var StorageConstants
 
-		// get the list of scouts
-		this.getScouts = function () {
-			alert("getScouts");
-		}
-
 		this.setAttendance = function (guid,attendance) {
 			localStorageService.set(guid, attendance);
 
@@ -16,16 +11,19 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 			var attendanceSummary = this.getAttendanceSummary();
 
 			var count = 0;
-			var total = this.getScouts().length;
-
+			var total = 0;
 			for ( var i in attendance.present) {
 				if ( attendance.present[i].stat ) {
 					count++;
 				}
 			}
+			for ( var s in this.getScouts() ) {
+				total++;
+			}
 			
 			attendanceSummary[guid] = {
 				date:attendance.date,
+				lastUpdatedDate: attendance.lastUpdatedDate,
 				guid:guid,
 				name: attendance.name,
 				total: total,
@@ -35,7 +33,7 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 		}
 		
 		this.getAttendanceByGuid = function (guid) {
-			return localStorageService.get(guid)
+			return localStorageService.get(guid);
 		}
 
 		this.getAttendanceSummary = function () {

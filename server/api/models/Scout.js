@@ -9,21 +9,21 @@ var db = require(__dirname + '/db');
  */
 var scoutSchema = db.Schema({
 
-        id: String,
-        firstName: String,
-        lastName: String,
-        picture: String,
-        lastUpdatedDate: {
-            type: Date,
-            default: Date.now
-        }
+	id: String,
+	firstName: String,
+	lastName: String,
+	picture: String,
+	lastUpdatedDate: {
+		type: Date,
+		default: Date.now
+	}
 });
 
 // http://stackoverflow.com/a/12670523
 scoutSchema.pre('save', function(next){
-  now = new Date();
-  this.lastUpdatedDate = now;
-  next();
+	now = new Date();
+	this.lastUpdatedDate = now;
+	next();
 });
 
 

@@ -10,7 +10,6 @@ var app = angular.module('smartattendance', [
   'scouts.utils',
   'underscore'
 ])
-
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -38,6 +37,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     controller: 'AttendanceCtrl'
   })
   .state('viewattendance', {
+    cache: false,
     url: '/viewattendance',
     templateUrl: 'app/templates/viewattendance.html',
     controller: 'ViewAttendanceCtrl'

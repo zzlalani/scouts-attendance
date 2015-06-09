@@ -34,7 +34,7 @@
 				<h2>{{scout.firstName}} {{scout.lastName}}</h2>
 				<label class="toggle toggle-assertive">
 
-					<input type="checkbox" ng-model="attendance.present[scout.id].stat" ng-change="attendanceChange(scout.id)">
+					<input type="checkbox" ng-model="attendance.present[scout._id].stat" ng-change="attendanceChange(scout._id)">
 					<div class="track">
 						<div class="handle"></div>
 					</div>

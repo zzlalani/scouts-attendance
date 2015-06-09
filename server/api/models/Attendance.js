@@ -9,19 +9,23 @@ var db = require( __dirname + '/db' );
  */
 var attendanceSchema = db.Schema({
 	
-    id:String,
-    guid:String,
+	id: String,
+	guid: String,
 	date: String,
-    /*present: { 
-    	scoutId :String {
-      		markedAt: String,
-        	status: Boolean
-        }
-    },*/
+	present: Object,
+	name: String,
+	lastUpdatedDate: Date,
+	syncedDate: {
+		type: Date,
+		default: Date.now
+	}
+});
 
-    userId: String,
-    name:String
-
+// http://stackoverflow.com/a/12670523
+attendanceSchema.pre('save', function(next){
+	now = new Date();
+	this.syncedDate = now;
+	next();
 });
 
 module.exports = db.model('Attendance', attendanceSchema);
