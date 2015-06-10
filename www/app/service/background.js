@@ -141,6 +141,7 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 			var callCounter = 0; 
 			var successCounter = 0;
 
+			// post calls
 			angular.forEach(attendanceSummary, function (a, key) {
 				
 				var lastUpdatedDate = new Date(a.lastUpdatedDate)
@@ -164,6 +165,7 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 
 				}
 			});
+
 		}
 
 		this.process = function () {

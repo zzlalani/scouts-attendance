@@ -40,6 +40,10 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 			return localStorageService.get("attendanceSummary") || {};
 		}
 
+		this.getDelected = function () {
+			return localStorageService.get("deleted") || {};
+		}
+
 		this.setAttendanceSummary = function ( summary ) {
 			return localStorageService.set("attendanceSummary",summary);
 		}
@@ -55,6 +59,13 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 		this.removeAttendance = function ( guid ) {
 			localStorageService.remove( guid );
 			var summary = this.getAttendanceSummary();
+			
+			var deleteObject = {};
+			deleteObject[guid] = {
+				lastUpdatedDate: summary[guid].lastUpdatedDate
+			};
+			localStorageService.set( "deleted",deleteObject);
+
 			delete summary[guid];
 			this.setAttendanceSummary(summary);
 		}
