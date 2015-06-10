@@ -17,6 +17,11 @@
       </ion-nav-buttons>
       
 	<ion-content>
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="doSync()">
+    </ion-refresher>
+
 		<ion-list show-delete="shouldShowDelete" type="card">
 			<ion-item ui-sref="getattendance({guid:attendance.guid})" ng-repeat="attendance in attendanceSummary | orderObjectBy:'date':view.orderReverse">
 				<h2>{{ attendance.name }}</h2>

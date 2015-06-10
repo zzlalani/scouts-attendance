@@ -112,7 +112,8 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 					syncComplete();
 
 				} // data.data.length > 0
-				
+				boradCast();
+
 			}).error(function(data) {
 				console.log("error",data);
 			});
@@ -165,18 +166,7 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 			});
 		}
 
-	}
-
-	var syncComplete = function() {
-		$rootScope.$broadcast("syncCompleted");
-	}
-
-	var loop = function (bg) {
-		if ( bg.startTimeout ) {
-			$timeout(function() {
-				loop(bg);
-			}, BackgroundTime);
-		}
+		this.process = function () {
 
 		// prevent sync and post if internet is offline
 		// if ( $cordovaNetwork.isOffline() ) {
@@ -184,9 +174,30 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 		// 	return false;
 		// }
 
-		bg.running = true;
-		bg.syncData();
-		bg.postData();
+		this.syncData();
+		this.postData();
+	}
+
+	}
+
+	var syncComplete = function() {
+		$rootScope.$broadcast("syncCompleted");
+	}
+
+	var boradCast = function () {
+		$rootScope.$broadcast('scroll.refreshComplete');
+	}
+
+	var loop = function ( bg ) {
+		if ( bg.startTimeout ) {
+			$timeout(function() {
+				loop(bg);
+			}, BackgroundTime);
+		}
+
+		
+		bg.process();
+		this.running = true;
 
 		// increase loop counter
 		bg.loopCounter++;

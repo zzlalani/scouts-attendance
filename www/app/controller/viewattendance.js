@@ -1,5 +1,5 @@
-app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicPopup', 'underscore',
-	function($scope, $state, $Storage, $ionicPopup, _) {
+app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$Background', '$ionicPopup', 'underscore',
+	function($scope, $state, $Storage, $Background, $ionicPopup, _) {
 	
 	$scope.attendanceSummary = $Storage.getAttendanceSummary();
 	
@@ -51,8 +51,14 @@ app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicPop
 	var showEmpty = function () {
 		if ( _.isEmpty( $scope.attendanceSummary ) ) {
 			$scope.listEmpty = true;
+		} else {
+			$scope.listEmpty = false;
 		}
 	}
 	showEmpty();
+
+	$scope.doSync = function() {
+		$Background.process();
+	};
 
 }]);
