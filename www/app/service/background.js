@@ -1,5 +1,5 @@
-app.service('$Background', ['BackgroundTime', '$Api', '$Storage', '$timeout', '$Utils', '$cordovaNetwork',
-	function(BackgroundTime, $Api, $Storage, $timeout, $Utils, $cordovaNetwork) {
+app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', '$timeout', '$Utils', '$cordovaNetwork',
+	function(BackgroundTime, $rootScope, $Api, $Storage, $timeout, $Utils, $cordovaNetwork) {
 
 	function Background () {
 
@@ -67,7 +67,8 @@ app.service('$Background', ['BackgroundTime', '$Api', '$Storage', '$timeout', '$
 				if ( data.data.length > 0 ) {
 
 					var syncAttendance = data.data;
-					
+					var attendanceSyncDateObj = new Date(attendanceSyncDate);
+
 					angular.forEach(syncAttendance, function (attendance, key) {
 						
 						var appAttendance = $Storage.getAttendanceByGuid( attendance.guid );
@@ -101,15 +102,16 @@ app.service('$Background', ['BackgroundTime', '$Api', '$Storage', '$timeout', '$
 						
 						$Storage.setAttendance( appAttendance.guid, appAttendance );
 						
-						if ( new Date(appAttendance.syncedDate) > new Date(attendanceSyncDate) ) {
+						if ( new Date(appAttendance.syncedDate) > attendanceSyncDateObj ) {
 							attendanceSyncDate = appAttendance.syncedDate;
 						}
 					});
 
 					dates.attendanceSync = attendanceSyncDate;
 					$Storage.setDates( dates );
+					syncComplete();
 
-				}
+				} // data.data.length > 0
 				
 			}).error(function(data) {
 				console.log("error",data);
@@ -163,6 +165,10 @@ app.service('$Background', ['BackgroundTime', '$Api', '$Storage', '$timeout', '$
 			});
 		}
 
+	}
+
+	var syncComplete = function() {
+		$rootScope.$broadcast("syncCompleted");
 	}
 
 	var loop = function (bg) {

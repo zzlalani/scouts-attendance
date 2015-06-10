@@ -3,6 +3,11 @@ app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$ionicPop
 	
 	$scope.attendanceSummary = $Storage.getAttendanceSummary();
 	
+	$scope.$on("syncCompleted", function () {
+		$scope.attendanceSummary = $Storage.getAttendanceSummary();
+		showEmpty();
+	});
+
 	$scope.shouldShow = function () {
 		$scope.shouldShowDelete = !$scope.shouldShowDelete;
 	};
