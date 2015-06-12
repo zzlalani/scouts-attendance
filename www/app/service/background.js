@@ -48,6 +48,7 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 					var syncScouts = data.data;
 					var scouts = $Storage.getScouts();
 					angular.forEach(syncScouts, function (scout, key) {
+						scout.fullname = scout.firstName + " " + scout.lastName;
 						scouts[scout._id] = scout;
 					});
 					dates.scoutsSync = new Date();

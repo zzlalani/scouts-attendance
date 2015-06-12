@@ -30,7 +30,7 @@
 		</label>
 		
 		<ion-list>
-			<ion-item class="item-toggle" ng-repeat="scout in scouts | filter:searchText">
+			<ion-item class="item-toggle" ng-repeat="scout in scouts | orderObjectBy:['firstName','lastName'] | filter:searchText">
 				<h2>{{scout.firstName}} {{scout.lastName}}</h2>
 				<label class="toggle toggle-assertive">
 

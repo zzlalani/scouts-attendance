@@ -67,16 +67,20 @@ underscore.factory('underscore', ['$window', function($window) {
   return $window._; // assumes underscore has already been loaded on the page
 }]);
 
-app.filter('orderObjectBy', function() {
+app.filter('orderObjectBy', ['underscore', function(_) {
   return function(items, field, reverse) {
     var filtered = [];
     angular.forEach(items, function(item) {
       filtered.push(item);
     });
     filtered.sort(function (a, b) {
-      return (a[field] > b[field] ? 1 : -1);
+      if ( _.isArray(field) ) {
+        return (a[field[0]] + " " + a[field[1]] > b[field[0]] + " " + b[field[1]] ? 1 : -1);
+      } else {
+        return (a[field] > b[field] ? 1 : -1);
+      }
     });
     if(reverse) filtered.reverse();
     return filtered;
   };
-});
+}]);

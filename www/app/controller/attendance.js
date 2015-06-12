@@ -49,7 +49,7 @@ app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filte
 	}
 
 	$scope.scouts = $Storage.getScouts();
-
+	
 	$scope.attendanceChange = function (id) {
 		$scope.attendance.present[id].dateTime = new Date();
 		$scope.attendance.lastUpdatedDate = new Date();
