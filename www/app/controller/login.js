@@ -3,6 +3,10 @@ app.controller('LoginCtrl', ['$scope', '$state', '$ionicPopup', '$Login', '$Stor
   	
 	$scope.form = {};
 
+	if ( $Storage.getUser() ) {
+		$state.go('index');
+	}
+
 	$scope.login = function() {
 		$Login.loginUser($scope.form).success(function(data) {
 			// console.log(data);

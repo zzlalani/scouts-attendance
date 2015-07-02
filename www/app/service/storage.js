@@ -78,6 +78,10 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 			return localStorageService.get( "user" );
 		}
 
+		this.removeUser = function () {
+			return localStorageService.remove( "user" );
+		}
+
 		this.setDates = function ( dates ) {
 			localStorageService.set( "dates", dates );
 		}
