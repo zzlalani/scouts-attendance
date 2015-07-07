@@ -1,5 +1,5 @@
 <ion-view title="Smart Scout Attendance">
-	<ion-nav-bar align-title="center" class="bar-assertive"></ion-nav-bar>
+	<ion-nav-bar align-title="center" class="bar-{{theme}}"></ion-nav-bar>
 
 	<ion-content>
 		
@@ -9,6 +9,9 @@
 			</ion-item>
 			<ion-item ui-sref="viewattendance" class="item-icon-left">
 				<i class="icon ion-clipboard"></i> View All Attendance
+			</ion-item>
+			<ion-item ui-sref="select" class="item-icon-left" ng-hide="getUserAccess.access != 'all'">
+				<i class="icon ion-gear-a"></i> Change Unit
 			</ion-item>
 			<ion-item ng-click="logout()" class="item-icon-left">
 				<i class="icon ion-android-unlock"></i> Logout

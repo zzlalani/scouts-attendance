@@ -2,7 +2,7 @@ app.service('$Api', ['$http', '$q', 'ServiceUrl', function($http, $q, ServiceUrl
 
 	function Api () {
 
-		this.login = function (data) {
+		this.login = function ( data ) {
 			
 			var deferred = $q.defer();
 			var promise = deferred.promise;
@@ -31,11 +31,11 @@ app.service('$Api', ['$http', '$q', 'ServiceUrl', function($http, $q, ServiceUrl
 			return promise;
 		}
 
-		this.getScouts = function ( date ) {
+		this.getScouts = function ( date, access ) {
 			var deferred = $q.defer();
 			var promise = deferred.promise;
 
-			$http.get(ServiceUrl + 'scouts/list/' + date)
+			$http.get(ServiceUrl + 'scouts/list/' + access + '/' + date)
 			.success(function(data, status, headers, config) {
 				deferred.resolve(data);
 			})
@@ -56,11 +56,11 @@ app.service('$Api', ['$http', '$q', 'ServiceUrl', function($http, $q, ServiceUrl
 			return promise;
 		}
 
-		this.postAttendance = function ( attendance ) {
+		this.postAttendance = function ( attendance, access ) {
 			var deferred = $q.defer();
 			var promise = deferred.promise;
 
-			$http.post(ServiceUrl + 'attendance/add', attendance)
+			$http.post(ServiceUrl + 'attendance/add/' + access, attendance)
 			.success(function(data, status, headers, config) {
 				deferred.resolve({
 					status: data.status
@@ -83,11 +83,11 @@ app.service('$Api', ['$http', '$q', 'ServiceUrl', function($http, $q, ServiceUrl
 			return promise;
 		}
 
-		this.getAttendance = function ( date ) {
+		this.getAttendance = function ( date, access ) {
 			var deferred = $q.defer();
 			var promise = deferred.promise;
 
-			$http.get(ServiceUrl + 'attendance/list/' + date)
+			$http.get(ServiceUrl + 'attendance/list/' + access + '/' +  date)
 			.success(function(data, status, headers, config) {
 				deferred.resolve(data);
 			})

@@ -27,6 +27,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
 
   $stateProvider.state('index', {
+    cache: false,
     url: 'index',
     templateUrl: 'app/templates/index.html',
     controller: 'IndexCtrl'
@@ -51,6 +52,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/',
     templateUrl: 'app/templates/login.html',
     controller: 'LoginCtrl'
+  })
+  .state('select', {
+    url: '/select',
+    templateUrl: 'app/templates/select.html',
+    controller: 'SelectCtrl'
   });
 
 })

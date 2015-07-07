@@ -4,11 +4,11 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 
 		var StorageConstants
 
-		this.setAttendance = function (guid,attendance) {
+		this.setAttendance = function ( guid, attendance, access ) {
 			localStorageService.set(guid, attendance);
 
 			// add date in attendance summary
-			var attendanceSummary = this.getAttendanceSummary();
+			var attendanceSummary = this.getAttendanceSummary(access);
 
 			var count = 0;
 			var total = 0;
@@ -17,7 +17,7 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 					count++;
 				}
 			}
-			for ( var s in this.getScouts() ) {
+			for ( var s in this.getScouts(access) ) {
 				total++;
 			}
 			
@@ -29,36 +29,36 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 				total: total,
 				count: count
 			}
-			localStorageService.set("attendanceSummary",attendanceSummary);
+			localStorageService.set(access + ".attendanceSummary",attendanceSummary);
 		}
 		
-		this.getAttendanceByGuid = function (guid) {
+		this.getAttendanceByGuid = function ( guid ) {
 			return localStorageService.get(guid);
 		}
 
-		this.getAttendanceSummary = function () {
-			return localStorageService.get("attendanceSummary") || {};
+		this.getAttendanceSummary = function ( access ) {
+			return localStorageService.get(access + ".attendanceSummary") || {};
 		}
 
 		this.getDelected = function () {
 			return localStorageService.get("deleted") || {};
 		}
 
-		this.setAttendanceSummary = function ( summary ) {
-			return localStorageService.set("attendanceSummary",summary);
+		this.setAttendanceSummary = function ( summary, access ) {
+			return localStorageService.set(access + ".attendanceSummary",summary);
 		}
 
-		this.getScouts = function () {
-			return localStorageService.get( "scouts" ) || {};
+		this.getScouts = function ( access ) {
+			return localStorageService.get( access + ".scouts" ) || {};
 		}
 
-		this.setScouts = function ( scouts ) {
-			localStorageService.set( "scouts", scouts );
+		this.setScouts = function ( scouts, access ) {
+			localStorageService.set( access + ".scouts", scouts );
 		}
 
-		this.removeAttendance = function ( guid ) {
+		this.removeAttendance = function ( guid, access ) {
 			localStorageService.remove( guid );
-			var summary = this.getAttendanceSummary();
+			var summary = this.getAttendanceSummary( access );
 			
 			var deleteObject = {};
 			deleteObject[guid] = {
@@ -67,7 +67,7 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 			localStorageService.set( "deleted",deleteObject);
 
 			delete summary[guid];
-			this.setAttendanceSummary(summary);
+			this.setAttendanceSummary(summary, access);
 		}
 
 		this.setUser = function ( user ) {
@@ -78,16 +78,24 @@ utils.factory('$Storage', ['localStorageService', function(localStorageService) 
 			return localStorageService.get( "user" );
 		}
 
+		this.getUserAccess = function () {
+			var user = localStorageService.get( "user" );
+			return {
+				access: user.access,
+				selectedAccess: user.selectedAccess
+			};
+		}
+
 		this.removeUser = function () {
 			return localStorageService.remove( "user" );
 		}
 
-		this.setDates = function ( dates ) {
-			localStorageService.set( "dates", dates );
+		this.setDates = function ( dates, access ) {
+			localStorageService.set( access + ".dates", dates );
 		}
 
-		this.getDates = function () {
-			return localStorageService.get( "dates" ) || {};
+		this.getDates = function ( access ) {
+			return localStorageService.get( access + ".dates" ) || {};
 		}
 
 	}

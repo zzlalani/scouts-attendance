@@ -1,10 +1,13 @@
 app.controller('ViewAttendanceCtrl', ['$scope', '$state', '$Storage', '$Background', '$ionicPopup', 'underscore',
 	function($scope, $state, $Storage, $Background, $ionicPopup, _) {
 	
-	$scope.attendanceSummary = $Storage.getAttendanceSummary();
+	var userAccess = $Storage.getUserAccess();
+	var access = userAccess.selectedAccess;
+	
+	$scope.attendanceSummary = $Storage.getAttendanceSummary(access);
 	
 	$scope.$on("syncCompleted", function () {
-		$scope.attendanceSummary = $Storage.getAttendanceSummary();
+		$scope.attendanceSummary = $Storage.getAttendanceSummary(access);
 		showEmpty();
 	});
 

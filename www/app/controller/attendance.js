@@ -1,8 +1,11 @@
-app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filter', '$stateParams', '$Utils', '$cordovaDatePicker', '$ionicPopup', 'underscore',
-	function($scope, $ionicHistory, $Storage, $filter, $stateParams, $Utils, $cordovaDatePicker, $ionicPopup, _) {
+app.controller('AttendanceCtrl', ['$scope', '$rootScope', '$ionicHistory', '$Storage', '$filter', '$stateParams', '$Utils', '$cordovaDatePicker', '$ionicPopup', 'underscore',
+	function($scope, $rootScope, $ionicHistory, $Storage, $filter, $stateParams, $Utils, $cordovaDatePicker, $ionicPopup, _) {
 	
 	var guid;
 	var date;
+	var userAccess = $Storage.getUserAccess();
+	var access = userAccess.selectedAccess;
+
 	if ( $stateParams.guid ) {
 		guid = $stateParams.guid;
 		$scope.attendance = $Storage.getAttendanceByGuid(guid);
@@ -30,7 +33,7 @@ app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filte
 			scope: $scope,
 			buttons: [{ 
 				text: 'Cancel',
-				type: 'button-assertive',
+				type: 'button-' + $rootScope.theme,
 				onTap: function(e) {
 					$scope.data.name = $scope.attendance.name;
 					return $scope.attendance.name;
@@ -48,7 +51,7 @@ app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filte
 		});
 	}
 
-	$scope.scouts = $Storage.getScouts();
+	$scope.scouts = $Storage.getScouts( access );
 	
 	$scope.attendanceChange = function (id) {
 		$scope.attendance.present[id].dateTime = new Date();
@@ -59,7 +62,7 @@ app.controller('AttendanceCtrl', ['$scope', '$ionicHistory', '$Storage', '$filte
 	}
 
 	$scope.save = function () {
-		$Storage.setAttendance(guid,$scope.attendance);
+		$Storage.setAttendance(guid,$scope.attendance,access);
 		// $ionicHistory.goBack(-1);
 	}
 

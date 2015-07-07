@@ -1,6 +1,6 @@
 <ion-view title="Rovers">
 
-	<ion-nav-bar align-title="center" class="bar-assertive">
+	<ion-nav-bar align-title="center" class="bar-{{theme}}">
 		<ion-nav-back-button>
   		</ion-nav-back-button>
   	</ion-nav-bar>
@@ -26,7 +26,7 @@
 			<ion-item ui-sref="getattendance({guid:attendance.guid})" ng-repeat="attendance in attendanceSummary | orderObjectBy:'date':view.orderReverse">
 				<h2>{{ attendance.name }}</h2>
   				<p>{{ attendance.date | date:'MMM dd, yyyy' }}</p>
-  				<span class="badge badge-assertive">{{ attendance.count }}/{{ attendance.total }}</span>
+  				<span class="badge badge-{{theme}}">{{ attendance.count }}/{{ attendance.total }}</span>
 
 				<ion-delete-button class="ion-minus-circled"
                        ng-click="removeItem(attendance.guid)"></ion-delete-button>

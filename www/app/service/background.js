@@ -6,14 +6,19 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 		this.startTimeout = false;
 		this.running = false;
 		this.loopCounter = 0;
+		this.access = null;
 
 		this.start = function () {
 
 			this.startTimeout = true;
+			var userAccess = $Storage.getUserAccess();
+			this.access = userAccess.selectedAccess;
+
 			loop(this);
 		}
 
 		this.stop = function () {
+			this.access = null;
 			this.startTimeout = false;
 		}
 
@@ -25,7 +30,7 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 		 **/
 		this.syncData = function() {
 			
-			var dates = $Storage.getDates();
+			var dates = $Storage.getDates(this.access);
 
 			var scoutsSyncDate, attendanceSyncDate;
 			if ( dates.scoutsSync ) {
@@ -40,21 +45,22 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 				attendanceSyncDate = $Utils.date(0);
 			}
 
-			$Api.getScouts(scoutsSyncDate).success(function(data) {
+			var self = this;
+			$Api.getScouts(scoutsSyncDate, this.access).success(function(data) {
 				// console.log("success",data);
 				console.log(data.data.length + " Scouts updated");
 				if ( data.data.length > 0 ) {
 
 					var syncScouts = data.data;
-					var scouts = $Storage.getScouts();
+					var scouts = $Storage.getScouts(self.access);
 					angular.forEach(syncScouts, function (scout, key) {
 						scout.fullname = scout.firstName + " " + scout.lastName;
 						scouts[scout._id] = scout;
 					});
 					dates.scoutsSync = new Date();
 
-					$Storage.setScouts( scouts );
-					$Storage.setDates( dates );
+					$Storage.setScouts( scouts, self.access );
+					$Storage.setDates( dates, self.access );
 
 				}
 
@@ -62,7 +68,7 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 				console.log("error",data);
 			});
 
-			$Api.getAttendance(attendanceSyncDate).success(function(data) {
+			$Api.getAttendance(attendanceSyncDate, this.access).success(function(data) {
 				// console.log("success",data);
 				console.log(data.data.length + " Attendance fetched");
 				if ( data.data.length > 0 ) {
@@ -101,7 +107,7 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 							appAttendance = attendance;
 						}
 						
-						$Storage.setAttendance( appAttendance.guid, appAttendance );
+						$Storage.setAttendance( appAttendance.guid, appAttendance, self.access );
 						
 						if ( new Date(appAttendance.syncedDate) > attendanceSyncDateObj ) {
 							attendanceSyncDate = appAttendance.syncedDate;
@@ -109,7 +115,7 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 					});
 
 					dates.attendanceSync = attendanceSyncDate;
-					$Storage.setDates( dates );
+					$Storage.setDates( dates, self.access );
 					syncComplete();
 
 				} // data.data.length > 0
@@ -129,7 +135,8 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 		 **/
 		this.postData = function () {
 			console.log("IN POST");
-			var dates = $Storage.getDates();
+			var dates = $Storage.getDates(this.access);
+			var self = this;
 
 			var attendanceUpdatedDate;
 			if ( dates.attendanceUpdated ) {
@@ -138,7 +145,7 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 				attendanceUpdatedDate = new Date(0);
 			}
 
-			var attendanceSummary = $Storage.getAttendanceSummary();
+			var attendanceSummary = $Storage.getAttendanceSummary(this.access);
 			var callCounter = 0; 
 			var successCounter = 0;
 
@@ -150,14 +157,14 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 					callCounter++;
 					var attendance = $Storage.getAttendanceByGuid( a.guid );
 
-					$Api.postAttendance(attendance).success(function(data) {
+					$Api.postAttendance(attendance, self.access).success(function(data) {
 						
 						successCounter++;
 						if ( successCounter == callCounter ) {
 							
 							dates.attendanceUpdated = new Date();
 
-							$Storage.setDates( dates );
+							$Storage.setDates( dates, self.access );
 
 						}
 					}).error(function(data) {
@@ -171,15 +178,15 @@ app.service('$Background', ['BackgroundTime', '$rootScope', '$Api', '$Storage', 
 
 		this.process = function () {
 
-		// prevent sync and post if internet is offline
-		// if ( $cordovaNetwork.isOffline() ) {
-		// 	bg.running = false;
-		// 	return false;
-		// }
+			// prevent sync and post if internet is offline
+			// if ( $cordovaNetwork.isOffline() ) {
+			// 	bg.running = false;
+			// 	return false;
+			// }
 
-		this.syncData();
-		this.postData();
-	}
+			this.syncData();
+			this.postData();
+		}
 
 	}
 
